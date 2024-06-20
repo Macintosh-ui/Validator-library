@@ -59,4 +59,12 @@ public class ValidatorTest {
         schema.contains("oes th");
         assertEquals(true, schema.isValid("What does the fox say?"));
     }
+    @Test
+    public void numberValidatorRequired() {
+        var validator = new Validator();
+        var schema = validator.number();
+        schema.required();
+        assertEquals(true, schema.isValid(5));
+        assertEquals(false, schema.isValid(null));
+    }
 }

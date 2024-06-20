@@ -1,16 +1,20 @@
 package hexlet.code.schemas;
 
-public class StringSchema {
+public class StringSchema extends BaseSchema {
 
-    private boolean requiredStatus;
-    private boolean minLengthStatus;
-    private int minLength;
-    private boolean containsStatus;
-    private String subString;
+    private static boolean requiredStatus;
+    private static boolean minLengthStatus;
+    private static boolean containsStatus;
+    private static int minLength;
+    private static String subString;
 
     public StringSchema() { }
 
-    public Boolean isValid(String text) {
+    public boolean isValid(String text) {
+        return super.isValid(text);
+    }
+
+    public static Boolean getCondition(String text) {
         boolean condition1 = requiredCheck(text);
         boolean condition2 = minLengthCheck(text);
         boolean condition3 = containsCheck(text);
@@ -18,32 +22,36 @@ public class StringSchema {
     }
 
     public void required() {
-        requiredStatus = true;
+        super.sRequiredStatus = true;
+        this.requiredStatus = true;
     }
 
     public void minLength(int length) {
         if (length <= 0) {
-            minLengthStatus = false;
+            super.sMinLengthStatus = false;
+            this.minLengthStatus = false;
         } else {
-            minLengthStatus = true;
+            super.sMinLengthStatus = true;
+            this.minLengthStatus = true;
             this.minLength = length;
         }
     }
 
     public void contains(String search) {
         this.subString = search;
+        super.sContainsStatus = true;
         this.containsStatus = true;
     }
 
-    private boolean containsCheck(String text) {
+    private static boolean containsCheck(String text) {
         return !containsStatus || text.contains(subString);
     }
 
-    private boolean minLengthCheck(String text) {
+    private static boolean minLengthCheck(String text) {
         return !minLengthStatus || text.length() > minLength;
     }
 
-    private boolean requiredCheck(String text) {
+    private static boolean requiredCheck(String text) {
         return !requiredStatus || !(text == null || text == (""));
     }
 }
