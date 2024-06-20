@@ -30,32 +30,20 @@ public class StringSchema {
         }
     }
 
-    public void contains(String subString) {
-        this.subString = subString;
+    public void contains(String search) {
+        this.subString = search;
         this.containsStatus = true;
     }
 
     private boolean containsCheck(String text) {
-        if (!containsStatus || text.contains(subString)) {
-            return true;
-        } else {
-            return false;
-        }
+        return !containsStatus || text.contains(subString);
     }
 
     private boolean minLengthCheck(String text) {
-        if (!minLengthStatus || text.length() > minLength) {
-            return true;
-        } else {
-            return false;
-        }
+        return !minLengthStatus || text.length() > minLength;
     }
 
     private boolean requiredCheck(String text) {
-        if (!requiredStatus || !(text == null || text == (""))) {
-            return true;
-        } else {
-            return false;
-        }
+        return !requiredStatus || !(text == null || text == (""));
     }
 }
