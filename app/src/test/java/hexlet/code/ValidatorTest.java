@@ -1,6 +1,10 @@
 package hexlet.code;
 
+import hexlet.code.schemas.MapSchema;
 import org.junit.jupiter.api.Test;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -65,7 +69,7 @@ public class ValidatorTest {
         var schema = validator.number();
         schema.required();
         assertEquals(true, schema.isValid(5));
-        assertEquals(false, schema.isValid(null));
+        assertEquals(false, schema.isValid((Integer) null));
     }
     @Test
     public void numberValidatorRange() {
@@ -82,5 +86,31 @@ public class ValidatorTest {
         schema.required();
         schema.positive();
         assertEquals(true, schema.isValid(1));
+    }
+    @Test
+    public void mapRequired() {
+        var validator = new Validator();
+        var schema = Validator.map();
+        assertEquals(true, schema.isValid((Map<?, ?>) null));
+        schema.required();
+        assertEquals(false, schema.isValid((Map<?, ?>) null));
+        var map = new HashMap<String, String>();
+        map.put("key1", "value1");
+        assertEquals(true, schema.isValid(map));
+    }
+    @Test
+    public void mapSize() {
+        var validator = new Validator();
+        var schema = Validator.map();
+        var map = new HashMap<String, String>();
+        map.put("key1", "value1");
+        schema.required();
+        schema.sizeOf(3);
+        assertEquals(false, schema.isValid(map));
+        map.put("key2", "value2");
+        map.put("key3", "value3");
+        assertEquals(true, schema.isValid(map));
+        schema.sizeOf(5);
+        assertEquals(false, schema.isValid(map));
     }
 }

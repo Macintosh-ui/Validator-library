@@ -1,8 +1,11 @@
 package hexlet.code.schemas;
 
+import java.util.Map;
+
 public class BaseSchema {
     private static boolean stringSchemaExist;
     private static boolean numberSchemaExist;
+    private static boolean mapSchemaExist;
     protected boolean sRequiredStatus;
     protected boolean sMinLengthStatus;
     protected boolean sContainsStatus;
@@ -13,9 +16,19 @@ public class BaseSchema {
     public static void setStringSchemaExist(boolean status) {
         BaseSchema.stringSchemaExist = status;
     }
-
+    public static void setMapSchemaExist(boolean status) {
+        BaseSchema.mapSchemaExist = status;
+    }
     public static void setNumberSchemaExist(boolean condition) {
         BaseSchema.numberSchemaExist = condition;
+    }
+
+    public boolean isValid(Map<?, ?> value) {
+        if (mapSchemaExist) {
+            return MapSchema.getCondition(value);
+        } else {
+            return false;
+        }
     }
 
     public boolean isValid(String text) {
