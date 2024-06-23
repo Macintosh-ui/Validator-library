@@ -2,9 +2,10 @@ package hexlet.code.schemas;
 
 import java.util.Map;
 
-public class MapSchema extends BaseSchema{
+public class MapSchema extends BaseSchema<T> {
     public static boolean requiredStatus;
     public static boolean sizeOfStatus;
+    public static boolean shapeStatus;
     public static Map<?, ?> value;
     public static int size;
 
@@ -23,7 +24,9 @@ public class MapSchema extends BaseSchema{
             return false;
         }
     }
-
+    public void shape() {
+        shapeStatus = true;
+    }
     public void required() {
         requiredStatus = true;
     }

@@ -2,7 +2,7 @@ package hexlet.code.schemas;
 
 import java.util.Map;
 
-public class BaseSchema {
+public class BaseSchema<T> {
     private static boolean stringSchemaExist;
     private static boolean numberSchemaExist;
     private static boolean mapSchemaExist;

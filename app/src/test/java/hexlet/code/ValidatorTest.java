@@ -1,6 +1,6 @@
 package hexlet.code;
 
-import hexlet.code.schemas.MapSchema;
+import hexlet.code.schemas.BaseSchema;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
@@ -112,5 +112,13 @@ public class ValidatorTest {
         assertEquals(true, schema.isValid(map));
         schema.sizeOf(5);
         assertEquals(false, schema.isValid(map));
+    }
+    @Test
+    public void mapShape() {
+        var validator = new Validator();
+        var schema = Validator.map();
+        Map<String, BaseSchema<String>> schemas = new HashMap<>();
+        schemas.put("first name", validator.string().required());
+        assertEquals(true, schema.isValid(schemas));
     }
 }
