@@ -11,7 +11,7 @@ public class BaseSchema {
     protected boolean rRangeStatus;
 
     public static void setStringSchemaExist(boolean status) {
-        stringSchemaExist = status;
+        BaseSchema.stringSchemaExist = status;
     }
 
     public static void setNumberSchemaExist(boolean condition) {

@@ -67,4 +67,20 @@ public class ValidatorTest {
         assertEquals(true, schema.isValid(5));
         assertEquals(false, schema.isValid(null));
     }
+    @Test
+    public void numberValidatorRange() {
+        var validator = new Validator();
+        var schema = validator.number();
+        schema.required();
+        schema.range(0, 5);
+        assertEquals(true, schema.isValid(3));
+    }
+    @Test
+    public void numberValidatorPositive() {
+        var validator = new Validator();
+        var schema = validator.number();
+        schema.required();
+        schema.positive();
+        assertEquals(true, schema.isValid(1));
+    }
 }

@@ -33,10 +33,10 @@ public class NumberSchema extends BaseSchema {
     }
 
     public static boolean positiveCheck(Integer number) {
-        return !nPositiveStatus || number != null;
+        return !nPositiveStatus || number >= 0 && number != null;
     }
     public static boolean rangeCheck(Integer number) {
-        return !nRangeStatus || number < max && number > min;
+        return !nRangeStatus || number < max;
     }
     public void positive() {
         this.nPositiveStatus = true;
