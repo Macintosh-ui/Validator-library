@@ -1,6 +1,6 @@
 package hexlet.code.schemas;
 
-public class NumberSchema extends BaseSchema<T> {
+public class NumberSchema extends BaseSchema {
     private static boolean nRequiredStatus;
     private static boolean nPositiveStatus;
     private static boolean nRangeStatus;

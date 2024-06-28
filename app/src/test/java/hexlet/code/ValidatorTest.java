@@ -116,9 +116,12 @@ public class ValidatorTest {
     @Test
     public void mapShape() {
         var validator = new Validator();
+        var validator1 = new Validator();
+        var schema1 = validator1.string();
+        schema1.required();
         var schema = Validator.map();
         Map<String, BaseSchema<String>> schemas = new HashMap<>();
-        schemas.put("first name", validator.string().required());
+        schemas.put("first name", schema1);
         assertEquals(true, schema.isValid(schemas));
     }
 }

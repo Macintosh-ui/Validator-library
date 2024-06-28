@@ -1,8 +1,10 @@
 package hexlet.code.schemas;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
-public class MapSchema extends BaseSchema<T> {
+public class MapSchema extends BaseSchema {
     public static boolean requiredStatus;
     public static boolean sizeOfStatus;
     public static boolean shapeStatus;
@@ -24,9 +26,24 @@ public class MapSchema extends BaseSchema<T> {
             return false;
         }
     }
-    public void shape() {
+
+
+    public boolean shape(Map<String, BaseSchema<?>> map) {
         shapeStatus = true;
+        List<Boolean> conditions = new ArrayList<>();
+        map.forEach((k, v) -> {
+            var schema = map.get(k);
+            var condition = schema.isValid(k);
+            conditions.add(condition);
+        });
+         for (var cond : conditions) {
+             if (cond == false) {
+                 return false;
+             }
+         }
+        return true;
     }
+
     public void required() {
         requiredStatus = true;
     }
