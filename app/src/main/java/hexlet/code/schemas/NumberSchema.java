@@ -1,28 +1,24 @@
 package hexlet.code.schemas;
 
-public class NumberSchema extends BaseSchema {
-    private static boolean nRequiredStatus;
-    private static boolean nPositiveStatus;
-    private static boolean nRangeStatus;
-    private static int min;
-    private static int max;
+public class NumberSchema extends BaseSchema<Integer> {
+    private boolean nRequiredStatus;
+    private boolean nPositiveStatus;
+    private boolean nRangeStatus;
+    private int min;
+    private int max;
 
-    public static boolean getCondition(Integer number) {
+    public boolean getCondition(Integer number) {
         boolean condition1 = requiredCheck(number);
         boolean condition2 = positiveCheck(number);
         boolean condition3 = rangeCheck(number);
         return condition1 && condition2 && condition3;
-    }
-    @Override
-    public boolean isValid(int number) {
-        return super.isValid(number);
     }
 
     public void required() {
         this.nRequiredStatus = true;
     }
 
-    public static boolean requiredCheck(Integer number) {
+    public boolean requiredCheck(Integer number) {
         if (nRequiredStatus && number != null) {
             return true;
         } else if (!nRequiredStatus) {
@@ -32,10 +28,10 @@ public class NumberSchema extends BaseSchema {
         }
     }
 
-    public static boolean positiveCheck(Integer number) {
+    public boolean positiveCheck(Integer number) {
         return !nPositiveStatus || number >= 0 && number != null;
     }
-    public static boolean rangeCheck(Integer number) {
+    public boolean rangeCheck(Integer number) {
         return !nRangeStatus || number < max;
     }
     public void positive() {

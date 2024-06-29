@@ -4,20 +4,20 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class MapSchema extends BaseSchema {
-    public static boolean requiredStatus;
-    public static boolean sizeOfStatus;
-    public static boolean shapeStatus;
-    public static Map<?, ?> value;
-    public static int size;
+public class MapSchema extends BaseSchema<Map> {
+    public boolean requiredStatus;
+    public boolean sizeOfStatus;
+    public boolean shapeStatus;
+    public Map<?, ?> value;
+    public int size;
 
-    public static boolean getCondition(Map<?, ?> value) {
-        MapSchema.value = value;
+    public boolean getCondition(Map<?, ?> value) {
+        this.value = value;
         boolean condition1 = requiredCheck();
         boolean condition2 = sizeOfCheck();
         return condition1 && condition2;
     }
-    public static boolean requiredCheck() {
+    public boolean requiredCheck() {
         if (requiredStatus && value != null) {
             return true;
         } else if (!requiredStatus) {
@@ -49,10 +49,10 @@ public class MapSchema extends BaseSchema {
     }
 
     public void sizeOf(int size) {
-        MapSchema.size = size;
+        this.size = size;
         sizeOfStatus = true;
     }
-    public static boolean sizeOfCheck() {
+    public boolean sizeOfCheck() {
         if (sizeOfStatus && value.size() >= size) {
             return true;
         } else if (!sizeOfStatus) {

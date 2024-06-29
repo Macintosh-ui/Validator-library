@@ -1,12 +1,12 @@
 package hexlet.code.schemas;
 
-public class StringSchema extends BaseSchema {
+public class StringSchema extends BaseSchema<String> {
 
-    private static boolean requiredStatus;
-    private static boolean minLengthStatus;
-    private static boolean containsStatus;
-    private static int minLength;
-    private static String subString;
+    private boolean requiredStatus;
+    private boolean minLengthStatus;
+    private boolean containsStatus;
+    private int minLength;
+    private String subString;
 
     public StringSchema() { }
 
@@ -14,7 +14,7 @@ public class StringSchema extends BaseSchema {
         return super.isValid(text);
     }
 
-    public static Boolean getCondition(String text) {
+    public Boolean getCondition(String text) {
         boolean condition1 = requiredCheck(text);
         boolean condition2 = minLengthCheck(text);
         boolean condition3 = containsCheck(text);
@@ -43,15 +43,15 @@ public class StringSchema extends BaseSchema {
         this.containsStatus = true;
     }
 
-    private static boolean containsCheck(String text) {
+    private boolean containsCheck(String text) {
         return !containsStatus || text.contains(subString);
     }
 
-    private static boolean minLengthCheck(String text) {
+    private boolean minLengthCheck(String text) {
         return !minLengthStatus || text.length() > minLength;
     }
 
-    private static boolean requiredCheck(String text) {
+    private boolean requiredCheck(String text) {
         return !requiredStatus || !(text == null || text == (""));
     }
 }
