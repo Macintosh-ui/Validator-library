@@ -7,31 +7,53 @@ public class StringSchema extends BaseSchema<String> {
     private boolean containsStatus;
     private int minLength;
     private String subString;
+    private int checks;
 
     public StringSchema() { }
 
-    public boolean isValid(String text) {
-        return super.isValid(text);
-    }
-
-    public Boolean getCondition(String text) {
-        boolean condition1 = requiredCheck(text);
-        boolean condition2 = minLengthCheck(text);
-        boolean condition3 = containsCheck(text);
-        return condition1 && condition2 && condition3;
-    }
-
     public void required() {
-        super.sRequiredStatus = true;
-        this.requiredStatus = true;
+        requiredStatus = true;
+    }
+    public boolean requiredCheck(String text) {
+       return !requiredStatus || !(text == null || text == (""));
+    }
+
+    protected void validate(String text) {
+        checks = 0;
+        while (checks != 3) {
+            if (requiredStatus) {
+                super.addCondition(requiredCheck(text));
+                if (!minLengthStatus == false && !containsStatus) {
+                    break;
+                }
+                checks++;
+                requiredStatus = false;
+            } else if(minLengthStatus) {
+                super.addCondition(minLengthCheck(text));
+                checks++;
+                if (!requiredStatus && !containsStatus) {
+                    break;
+                }
+                minLengthStatus = false;
+            } else if(containsStatus) {
+                super.addCondition(containsCheck(text));
+                checks++;
+                if (!requiredStatus && !minLengthStatus) {
+                    break;
+                }
+                containsStatus = false;
+            } else {
+                super.addCondition(true);
+                checks++;
+                break;
+            }
+        }
     }
 
     public void minLength(int length) {
         if (length <= 0) {
-            super.sMinLengthStatus = false;
             this.minLengthStatus = false;
         } else {
-            super.sMinLengthStatus = true;
             this.minLengthStatus = true;
             this.minLength = length;
         }
@@ -39,7 +61,6 @@ public class StringSchema extends BaseSchema<String> {
 
     public void contains(String search) {
         this.subString = search;
-        super.sContainsStatus = true;
         this.containsStatus = true;
     }
 
@@ -49,9 +70,5 @@ public class StringSchema extends BaseSchema<String> {
 
     private boolean minLengthCheck(String text) {
         return !minLengthStatus || text.length() > minLength;
-    }
-
-    private boolean requiredCheck(String text) {
-        return !requiredStatus || !(text == null || text == (""));
     }
 }
