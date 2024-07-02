@@ -8,46 +8,21 @@ public class StringSchema extends BaseSchema<String> {
     private int minLength;
     private String subString;
     private int checks;
+    protected String text;
 
     public StringSchema() { }
 
-    public void required() {
+    public void required1() {
         requiredStatus = true;
     }
-    public boolean requiredCheck(String text) {
-       return !requiredStatus || !(text == null || text == (""));
+
+    protected void setText(String text) {
+        this.text = text;
     }
 
-    protected void validate(String text) {
-        checks = 0;
-        while (checks != 3) {
-            if (requiredStatus) {
-                super.addCondition(requiredCheck(text));
-                if (!minLengthStatus == false && !containsStatus) {
-                    break;
-                }
-                checks++;
-                requiredStatus = false;
-            } else if(minLengthStatus) {
-                super.addCondition(minLengthCheck(text));
-                checks++;
-                if (!requiredStatus && !containsStatus) {
-                    break;
-                }
-                minLengthStatus = false;
-            } else if(containsStatus) {
-                super.addCondition(containsCheck(text));
-                checks++;
-                if (!requiredStatus && !minLengthStatus) {
-                    break;
-                }
-                containsStatus = false;
-            } else {
-                super.addCondition(true);
-                checks++;
-                break;
-            }
-        }
+    public void required() {
+        requiredStatus = true;
+        super.addCondition(value -> !requiredStatus || !(value == null || value == ("")));
     }
 
     public void minLength(int length) {
@@ -56,19 +31,13 @@ public class StringSchema extends BaseSchema<String> {
         } else {
             this.minLengthStatus = true;
             this.minLength = length;
+            super.addCondition(value -> !minLengthStatus || text.length() > minLength);
         }
     }
 
     public void contains(String search) {
         this.subString = search;
         this.containsStatus = true;
-    }
-
-    private boolean containsCheck(String text) {
-        return !containsStatus || text.contains(subString);
-    }
-
-    private boolean minLengthCheck(String text) {
-        return !minLengthStatus || text.length() > minLength;
+        super.addCondition(value -> !containsStatus || text.contains(subString));
     }
 }

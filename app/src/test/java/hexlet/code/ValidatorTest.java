@@ -87,41 +87,71 @@ public class ValidatorTest {
         schema.positive();
         assertEquals(true, schema.isValid(1));
     }
-    //@Test
-//    public void mapRequired() {
-//        var validator = new Validator();
-//        var schema = Validator.map();
-//        assertEquals(true, schema.isValid((Map<?, ?>) null));
-//        schema.required();
-//        assertEquals(false, schema.isValid((Map<?, ?>) null));
-//        var map = new HashMap<String, String>();
-//        map.put("key1", "value1");
-//        assertEquals(true, schema.isValid(map));
-//    }
+    @Test
+    public void mapRequired() {
+        var validator = new Validator();
+        var schema = validator.map();
+        assertEquals(true, schema.isValid((Map<?, ?>) null));
+        schema.required();
+        assertEquals(false, schema.isValid((Map<?, ?>) null));
+        var map = new HashMap<String, String>();
+        map.put("key1", "value1");
+        assertEquals(true, schema.isValid(map));
+    }
+    @Test
+    public void mapSize() {
+        var validator = new Validator();
+        var schema = validator.map();
+        var map = new HashMap<String, String>();
+        map.put("key1", "value1");
+        schema.required();
+        schema.sizeOf(3);
+        assertEquals(false, schema.isValid(map));
+        map.put("key2", "value2");
+        map.put("key3", "value3");
+        assertEquals(true, schema.isValid(map));
+        schema.sizeOf(5);
+        assertEquals(false, schema.isValid(map));
+    }
+    @Test
+    public void mapShape() {
+        var validator = new Validator();
+        var validator1 = new Validator();
+        var schema1 = validator1.string();
+        schema1.required();
+        var schema = validator.map();
+        Map<String, BaseSchema<?>> schemas = new HashMap<>();
+        schemas.put("first name", schema1);
+        assertEquals(true, schema.isValid(schemas));
+    }
+    @Test
+    public void mapShape2() {
+        var validator = new Validator();
+        var validator1 = new Validator();
+        var schema1 = validator1.string();
+        var schema2 = validator.number();
+        schema2.required();
+        schema2.positive();
+        schema1.required();
+        var schema = validator.map();
+        Map<Object, BaseSchema<?>> schemas = new HashMap<>();
+        schemas.put("first name", schema1);
+        schemas.put(4, schema2);
+        assertEquals(true, schema.isValid(schemas));
+    }
 //    @Test
-//    public void mapSize() {
-//        var validator = new Validator();
-//        var schema = Validator.map();
-//        var map = new HashMap<String, String>();
-//        map.put("key1", "value1");
-//        schema.required();
-//        schema.sizeOf(3);
-//        assertEquals(false, schema.isValid(map));
-//        map.put("key2", "value2");
-//        map.put("key3", "value3");
-//        assertEquals(true, schema.isValid(map));
-//        schema.sizeOf(5);
-//        assertEquals(false, schema.isValid(map));
-//    }
-//    @Test
-//    public void mapShape() {
+//    public void mapShape3() {
 //        var validator = new Validator();
 //        var validator1 = new Validator();
 //        var schema1 = validator1.string();
-//        schema1.requiredCheck();
-//        var schema = Validator.map();
-//        Map<String, BaseSchema<String>> schemas = new HashMap<>();
+//        var schema2 = validator.number();
+//        schema2.required();
+//        schema2.positive();
+//        schema1.required();
+//        var schema = validator.map();
+//        Map<Object, BaseSchema<?>> schemas = new HashMap<>();
 //        schemas.put("first name", schema1);
-//        assertEquals(true, schema.isValid(schemas));
+//        schemas.put(-4, schema2);
+//        assertEquals(false, schema.isValid(schemas));
 //    }
 }

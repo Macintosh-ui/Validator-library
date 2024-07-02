@@ -2,29 +2,16 @@ package hexlet.code.schemas;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
 
 public class BaseSchema<T> {
-    protected List<Boolean> conditions = new ArrayList<>();
-    protected List<Boolean> conditions1;
+    protected List<Predicate> conditions = new ArrayList<>();
 
-    public void addCondition(Boolean condition) {
-        conditions.add(condition);
+    public void addCondition(Predicate<T> predicate) {
+        conditions.add(predicate);
     }
 
     public boolean isValid(Object obj) {
-
-        if (obj instanceof String) {
-            StringSchema sSchema = new StringSchema();
-            sSchema.validate((String) obj);
-        } else if (obj instanceof Integer) {
-            NumberSchema nSchema = new NumberSchema();
-            nSchema.validate((Integer) obj);
-        }
-        for(var condition : conditions) {
-            if(!condition) {
-                return false;
-            }
-        }
-        return true;
+        return conditions.stream().allMatch(condition -> condition.test(obj));
     }
 }
