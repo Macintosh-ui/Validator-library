@@ -1,7 +1,5 @@
 package hexlet.code.schemas;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 public class MapSchema extends BaseSchema<Map> {
@@ -19,19 +17,10 @@ public class MapSchema extends BaseSchema<Map> {
         super.addCondition(value -> value.size() >= size || !sizeOfStatus);
     }
 
-    public boolean shape(Map<?, BaseSchema<?>> map) {
+    public void shape(Map<String, BaseSchema<String>> map) {
         shapeStatus = true;
-        List<Boolean> checks = new ArrayList<>();
-        map.forEach((k, v) -> {
-            checks.add(super.isValid(k));
-        });
-
-        for (Boolean check : checks) {
-            if (!check) {
-                return false;
-            }
-        }
-        return true;
+        var entrySet = map.entrySet();
+        super.addCondition(value -> entrySet.stream().allMatch(pare -> map.get(pare.getKey()).isValid(value)));
     }
 
 }

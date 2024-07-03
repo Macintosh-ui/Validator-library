@@ -141,17 +141,38 @@ public class ValidatorTest {
     }
 //    @Test
 //    public void mapShape3() {
-//        var validator = new Validator();
-//        var validator1 = new Validator();
-//        var schema1 = validator1.string();
-//        var schema2 = validator.number();
-//        schema2.required();
-//        schema2.positive();
-//        schema1.required();
-//        var schema = validator.map();
-//        Map<Object, BaseSchema<?>> schemas = new HashMap<>();
-//        schemas.put("first name", schema1);
-//        schemas.put(-4, schema2);
-//        assertEquals(false, schema.isValid(schemas));
+//        var v = new Validator();
+//        var schema = v.map();
+//        // shape позволяет описывать валидацию для значений каждого ключа объекта Map
+//        // Создаем набор схем для проверки каждого ключа проверяемого объекта
+//        // Для значения каждого ключа - своя схема
+//        Map<String, BaseSchema<String>> schemas = new HashMap<>();
+//
+//        // Определяем схемы валидации для значений свойств "firstName" и "lastName"
+//        // Имя должно быть строкой, обязательно для заполнения
+//        schemas.put("firstName", v.string().required());
+//        // Фамилия обязательна для заполнения и должна содержать не менее 2 символов
+//        schemas.put("lastName", v.string().required());
+//
+//// Настраиваем схему `MapSchema`
+//// Передаем созданный набор схем в метод shape()
+//        schema.shape(schemas);
+//
+//        // Проверяем объекты
+//        Map<String, String> human1 = new HashMap<>();
+//        human1.put("firstName", "John");
+//        human1.put("lastName", "Smith");
+//        assertEquals(true, schema.isValid(human1)); // true
+//
+//        Map<String, String> human2 = new HashMap<>();
+//        human2.put("firstName", "John");
+//        human2.put("lastName", null);
+//        assertEquals(false, schema.isValid(human2)); // false
+//
+//        Map<String, String> human3 = new HashMap<>();
+//        human3.put("firstName", "Anna");
+//        human3.put("lastName", "B");
+//        schema.isValid(human3); // false
 //    }
+
 }
