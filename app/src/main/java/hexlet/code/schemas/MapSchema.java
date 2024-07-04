@@ -19,8 +19,10 @@ public class MapSchema extends BaseSchema<Map> {
 
     public void shape(Map<String, BaseSchema<String>> map) {
         shapeStatus = true;
-        var entrySet = map.entrySet();
-        super.addCondition(value -> entrySet.stream().allMatch(pare -> map.get(pare.getKey()).isValid(value)));
+        super.addCondition(value -> map.entrySet().stream().allMatch(k -> {
+            Object obj = value.get(k.getKey());
+            return k.getValue().isValid(obj);
+        }));
     }
 
 }
