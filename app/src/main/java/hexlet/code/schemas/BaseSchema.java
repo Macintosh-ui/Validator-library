@@ -16,8 +16,8 @@ public class BaseSchema<T> {
     }
 
     public boolean isValid(T obj) {
-        if (!requiredStatus && obj == null) {
-            return true;
+        if (obj == null) {
+            return !requiredStatus;
         } else {
             return conditions.stream().allMatch(condition -> condition.test(obj));
         }
