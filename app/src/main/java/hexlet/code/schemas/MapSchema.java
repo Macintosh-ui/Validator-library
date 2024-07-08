@@ -10,7 +10,7 @@ public class MapSchema extends BaseSchema<Map> {
         return MapSchema.this;
     }
 
-    public MapSchema sizeOf(int size) {
+    public MapSchema sizeof(int size) {
         super.addCondition(value -> value.size() >= size);
         return MapSchema.this;
     }

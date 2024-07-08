@@ -105,12 +105,12 @@ public class ValidatorTest {
         var map = new HashMap<String, String>();
         map.put("key1", "value1");
         schema.required();
-        schema.sizeOf(3);
+        schema.sizeof(3);
         assertEquals(false, schema.isValid(map));
         map.put("key2", "value2");
         map.put("key3", "value3");
         assertEquals(true, schema.isValid(map));
-        schema.sizeOf(5);
+        schema.sizeof(5);
         assertEquals(false, schema.isValid(map));
     }
     @Test
