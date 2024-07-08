@@ -1,17 +1,25 @@
 package hexlet.code.schemas;
 
+import lombok.Setter;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
 
 public class BaseSchema<T> {
-    protected List<Predicate> conditions = new ArrayList<>();
+    protected List<Predicate<T>> conditions = new ArrayList<>();
+    @Setter
+    protected boolean requiredStatus;
 
     public void addCondition(Predicate<T> predicate) {
         conditions.add(predicate);
     }
 
-    public boolean isValid(Object obj) {
-        return conditions.stream().allMatch(condition -> condition.test(obj));
+    public boolean isValid(T obj) {
+        if (!requiredStatus && obj == null) {
+            return true;
+        } else {
+            return conditions.stream().allMatch(condition -> condition.test(obj));
+        }
     }
 }
