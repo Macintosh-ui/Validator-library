@@ -4,18 +4,18 @@ public class StringSchema extends BaseSchema<String> {
 
     public StringSchema() { }
 
-    public BaseSchema<String> required() {
+    public StringSchema required() {
         super.setRequiredStatus(true);
         super.addCondition(value -> !super.requiredStatus || !(value == null || value == ("")));
         return StringSchema.this;
     }
 
-    public BaseSchema<String> minLength(int length) {
+    public StringSchema minLength(int length) {
         super.addCondition(value -> value.length() > length);
         return StringSchema.this;
     }
 
-    public BaseSchema<String> contains(String search) {
+    public StringSchema contains(String search) {
         super.addCondition(value -> value.contains(search));
         return StringSchema.this;
     }
