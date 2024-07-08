@@ -15,7 +15,8 @@ public class StringSchema extends BaseSchema<String> {
         return StringSchema.this;
     }
 
-    public void contains(String search) {
+    public BaseSchema<String> contains(String search) {
         super.addCondition(value -> value.contains(search));
+        return StringSchema.this;
     }
 }
