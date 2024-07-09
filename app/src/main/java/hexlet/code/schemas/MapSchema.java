@@ -5,22 +5,22 @@ import java.util.Map;
 public class MapSchema extends BaseSchema<Map> {
 
     public MapSchema() {
-        super.addCondition(value -> value != null || !super.requiredStatus);
+        super.addCondition("required", value -> value != null || !super.requiredStatus);
     }
 
     public MapSchema required() {
         super.setRequiredStatus(true);
-        super.addCondition(value -> value != null || !super.requiredStatus);
+        super.addCondition("required", value -> value != null || !super.requiredStatus);
         return MapSchema.this;
     }
 
     public MapSchema sizeof(int size) {
-        super.addCondition(value -> value.size() >= size);
+        super.addCondition("sizeof", value -> value.size() >= size);
         return MapSchema.this;
     }
 
     public MapSchema shape(Map<String, BaseSchema<String>> map) {
-        super.addCondition(value -> map.entrySet().stream().allMatch(k -> {
+        super.addCondition("shape", value -> map.entrySet().stream().allMatch(k -> {
             Object obj = value.get(k.getKey());
             return k.getValue().isValid((String) obj);
         }));

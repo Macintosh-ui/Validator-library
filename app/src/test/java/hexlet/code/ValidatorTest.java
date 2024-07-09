@@ -51,8 +51,8 @@ public class ValidatorTest {
         assertEquals(true, schema.isValid("test"));
         schema.minLength(10);
         assertEquals(true, schema.isValid("test|test|test"));
-        /*schema.minLength(0);
-        assertEquals(true, schema.isValid("test"));*/
+        schema.minLength(0);
+        assertEquals(true, schema.isValid("test"));
     }
     @Test
     public void testStringValidationContainsTrue() {

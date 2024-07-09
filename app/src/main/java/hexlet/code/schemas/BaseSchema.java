@@ -2,23 +2,23 @@ package hexlet.code.schemas;
 
 import lombok.Setter;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.function.Predicate;
 
 public class BaseSchema<T> {
-    protected List<Predicate<T>> conditions = new ArrayList<>();
+    protected Map<String, Predicate<T>> conditions = new LinkedHashMap<>();
     @Setter
     protected boolean requiredStatus;
-    public void addCondition(Predicate<T> predicate) {
-        conditions.add(predicate);
+    public void addCondition(String checkName, Predicate<T> predicate) {
+        conditions.put(checkName, predicate);
     }
 
     public boolean isValid(T obj) {
         if (obj == null) {
             return !requiredStatus;
         } else {
-            return conditions.stream().allMatch(condition -> condition.test(obj));
+            return conditions.values().stream().allMatch(condition -> condition.test(obj));
         }
     }
 }
