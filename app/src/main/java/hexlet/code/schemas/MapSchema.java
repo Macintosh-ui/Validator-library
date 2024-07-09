@@ -20,6 +20,7 @@ public class MapSchema extends BaseSchema<Map> {
     }
 
     public MapSchema shape(Map<String, BaseSchema<String>> map) {
+        super.shapeStatus = true;
         super.addCondition(value -> map.entrySet().stream().allMatch(k -> {
             Object obj = value.get(k.getKey());
             return k.getValue().isValid((String) obj);
