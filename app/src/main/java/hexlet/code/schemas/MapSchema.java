@@ -4,6 +4,10 @@ import java.util.Map;
 
 public class MapSchema extends BaseSchema<Map> {
 
+    public MapSchema() {
+        super.addCondition(value -> value != null || !super.requiredStatus);
+    }
+
     public MapSchema required() {
         super.setRequiredStatus(true);
         super.addCondition(value -> value != null || !super.requiredStatus);

@@ -2,7 +2,9 @@ package hexlet.code.schemas;
 
 public class StringSchema extends BaseSchema<String> {
 
-    public StringSchema() { }
+    public StringSchema() {
+        super.addCondition(value -> !super.requiredStatus || !(value == null || value == ("")));
+    }
 
     public StringSchema required() {
         super.setRequiredStatus(true);
