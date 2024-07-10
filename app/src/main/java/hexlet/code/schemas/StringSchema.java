@@ -3,22 +3,22 @@ package hexlet.code.schemas;
 public final class StringSchema extends BaseSchema<String> {
 
     public StringSchema() {
-        super.addCondition("required", value -> !super.requiredStatus || !(value == null || value == ("")));
+        addCondition("required", value -> !super.requiredStatus || !(value == null || value == ("")));
     }
 
     public StringSchema required() {
-        super.setRequiredStatus(true);
-        super.addCondition("required", value -> !super.requiredStatus || !(value == null || value == ("")));
-        return StringSchema.this;
+        setRequiredStatus(true);
+        addCondition("required", value -> !super.requiredStatus || !(value == null || value == ("")));
+        return this;
     }
 
     public StringSchema minLength(int length) {
-        super.addCondition("minLength", value -> value.length() > length);
-        return StringSchema.this;
+        addCondition("minLength", value -> value.length() > length);
+        return this;
     }
 
     public StringSchema contains(String search) {
-        super.addCondition("contains", value -> value.contains(search));
-        return StringSchema.this;
+        addCondition("contains", value -> value.contains(search));
+        return this;
     }
 }

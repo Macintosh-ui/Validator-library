@@ -6,100 +6,110 @@ import org.junit.jupiter.api.Test;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
 public class ValidatorTest {
-    @Test //false impl
+
+    @Test
     public void testStringValidationRequired() {
         var validator = new Validator();
         var schema = validator.string();
         schema.required();
         var actual = schema.isValid("");
-        assertEquals(false, actual);
+        assertFalse(actual);
     }
-    @Test //false impl
+
+    @Test
     public void testStringValidationMinLength() {
         var validator = new Validator();
         var schema = validator.string();
         schema.required();
         schema.minLength(3);
         var actual = schema.isValid("te");
-        assertEquals(false, actual);
+        assertFalse(actual);
     }
-    @Test //false impl
+
+    @Test
     public void testStringValidationContains() {
         var validator = new Validator();
         var schema = validator.string();
         schema.contains("q");
         var actual = schema.isValid("test");
-        assertEquals(false, actual);
+        assertFalse(actual);
     }
-    @Test //true impl
+
+    @Test
     public void testStringValidationReqTrue() {
         var validator = new Validator();
         var schema = validator.string();
-        assertEquals(true, schema.isValid(""));
+        assertTrue(schema.isValid(""));
         schema.required();
-        assertEquals(true, schema.isValid("test"));
+        assertTrue(schema.isValid("test"));
     }
+
     @Test
     public void testStringValidationMinLengthTrue() {
         var validator = new Validator();
         var schema = validator.string();
         schema.required();
         schema.minLength(-1);
-        assertEquals(true, schema.isValid("test"));
+        assertTrue(schema.isValid("test"));
         schema.minLength(10);
-        assertEquals(true, schema.isValid("test|test|test"));
+        assertTrue(schema.isValid("test|test|test"));
         schema.minLength(0);
-        assertEquals(true, schema.isValid("test"));
+        assertTrue(schema.isValid("test"));
     }
+
     @Test
     public void testStringValidationContainsTrue() {
         var validator = new Validator();
         var schema = validator.string();
         schema.contains("What ");
-        assertEquals(true, schema.isValid("What does the fox say?"));
+        assertTrue(schema.isValid("What does the fox say?"));
         schema.contains("oes th");
-        assertEquals(true, schema.isValid("What does the fox say?"));
+        assertTrue(schema.isValid("What does the fox say?"));
     }
+
     @Test
     public void numberValidatorRequired() {
         var validator = new Validator();
         var schema = validator.number();
         schema.required();
-        assertEquals(true, schema.isValid(5));
-        assertEquals(false, schema.isValid((Integer) null));
+        assertTrue(schema.isValid(5));
+        assertFalse(schema.isValid(null));
     }
+
     @Test
     public void numberValidatorRange() {
         var validator = new Validator();
         var schema = validator.number();
         schema.required();
         schema.range(0, 5);
-        assertEquals(true, schema.isValid(3));
+        assertTrue(schema.isValid(3));
     }
+
     @Test
     public void numberValidatorPositive() {
         var validator = new Validator();
         var schema = validator.number();
         schema.required();
         schema.positive();
-        assertEquals(true, schema.isValid(1));
+        assertTrue(schema.isValid(1));
     }
+
     @Test
     public void mapRequired() {
         var validator = new Validator();
         var schema = validator.map();
-        assertEquals(true, schema.isValid((Map<?, ?>) null));
+        assertTrue(schema.isValid(null));
         schema.required();
-        assertEquals(false, schema.isValid((Map<?, ?>) null));
+        assertFalse(schema.isValid(null));
         var map = new HashMap<String, String>();
         map.put("key1", "value1");
-        assertEquals(true, schema.isValid(map));
+        assertTrue(schema.isValid(map));
     }
+
     @Test
     public void mapSize() {
         var validator = new Validator();
@@ -108,13 +118,14 @@ public class ValidatorTest {
         map.put("key1", "value1");
         schema.required();
         schema.sizeof(3);
-        assertEquals(false, schema.isValid(map));
+        assertFalse(schema.isValid(map));
         map.put("key2", "value2");
         map.put("key3", "value3");
-        assertEquals(true, schema.isValid(map));
+        assertTrue(schema.isValid(map));
         schema.sizeof(5);
-        assertEquals(false, schema.isValid(map));
+        assertFalse(schema.isValid(map));
     }
+
     @Test
     public void mapShape() {
         var validator = new Validator();
@@ -124,8 +135,9 @@ public class ValidatorTest {
         var schema = validator.map();
         Map<String, BaseSchema<?>> schemas = new HashMap<>();
         schemas.put("first name", schema1);
-        assertEquals(true, schema.isValid(schemas));
+        assertTrue(schema.isValid(schemas));
     }
+
     @Test
     public void mapShape2() {
         var validator = new Validator();
@@ -139,8 +151,9 @@ public class ValidatorTest {
         Map<Object, BaseSchema<?>> schemas = new HashMap<>();
         schemas.put("first name", schema1);
         schemas.put(4, schema2);
-        assertEquals(true, schema.isValid(schemas));
+        assertTrue(schema.isValid(schemas));
     }
+
     @Test
     public void mapShape3() {
         var v = new Validator();
@@ -153,31 +166,32 @@ public class ValidatorTest {
         Map<String, String> human1 = new HashMap<>();
         human1.put("firstName", "John");
         human1.put("lastName", "Smith");
-        assertEquals(true, schema.isValid(human1)); // true
+        assertTrue(schema.isValid(human1));
 
         Map<String, String> human2 = new HashMap<>();
         human2.put("firstName", "John");
         human2.put("lastName", null);
-        assertEquals(false, schema.isValid(human2)); // false
+        assertFalse(schema.isValid(human2));
 
     }
+
     @Test
     public void numberTest() {
         var v = new Validator();
         var schema = v.number();
         assertTrue(schema.isValid(5));
-        assertTrue(schema.isValid(null)); // true
-        assertTrue(schema.positive().isValid(null)); // true
+        assertTrue(schema.isValid(null));
+        assertTrue(schema.positive().isValid(null));
         schema.required();
-        assertFalse(schema.isValid(null)); // false
-        assertTrue(schema.isValid(10)); // true
-        assertFalse(schema.isValid(-10)); // false
-        assertFalse(schema.isValid(0)); // false
+        assertFalse(schema.isValid(null));
+        assertTrue(schema.isValid(10));
+        assertFalse(schema.isValid(-10));
+        assertFalse(schema.isValid(0));
         schema.range(5, 10);
-        assertTrue(schema.isValid(5)); // true
-        assertTrue(schema.isValid(10)); // true
-        assertFalse(schema.isValid(4)); // false
-        assertFalse(schema.isValid(11)); // false
+        assertTrue(schema.isValid(5));
+        assertTrue(schema.isValid(10));
+        assertFalse(schema.isValid(4));
+        assertFalse(schema.isValid(11));
     }
 
 }

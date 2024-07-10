@@ -10,6 +10,7 @@ public class BaseSchema<T> {
     protected Map<String, Predicate<T>> conditions = new LinkedHashMap<>();
     @Setter
     protected boolean requiredStatus;
+
     public final void addCondition(String checkName, Predicate<T> predicate) {
         conditions.put(checkName, predicate);
     }
