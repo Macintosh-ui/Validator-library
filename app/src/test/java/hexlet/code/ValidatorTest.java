@@ -177,10 +177,10 @@ public class ValidatorTest {
 
         schema.range(5, 10);
 
-        schema.isValid(5); // true
-        schema.isValid(10); // true
-        schema.isValid(4); // false
-        schema.isValid(11); // false
+        assertTrue(schema.isValid(5)); // true
+        assertTrue(schema.isValid(10)); // true
+        assertFalse(schema.isValid(4)); // false
+        assertFalse(schema.isValid(11)); // false
     }
 
 }
