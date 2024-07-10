@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class ValidatorTest {
     @Test //false impl
@@ -158,6 +158,29 @@ public class ValidatorTest {
         human2.put("lastName", null);
         assertEquals(false, schema.isValid(human2)); // false
 
+    }
+    @Test
+    public void numberTest() {
+        var v = new Validator();
+        var schema = v.number();
+        assertTrue(schema.isValid(5));// true
+// Пока не вызван метод required(), null считается валидным
+        assertTrue(schema.isValid(null)); // true
+        assertTrue(schema.positive().isValid(null)); // true
+        schema.required();
+        assertFalse(schema.isValid(null)); // false
+        assertTrue(schema.isValid(10)); // true
+// Потому что ранее мы вызвали метод positive()
+        assertFalse(schema.isValid(-10)); // false
+//  Ноль — не положительное число
+        assertFalse(schema.isValid(0)); // false
+
+        schema.range(5, 10);
+
+        schema.isValid(5); // true
+        schema.isValid(10); // true
+        schema.isValid(4); // false
+        schema.isValid(11); // false
     }
 
 }

@@ -13,7 +13,7 @@ public class NumberSchema extends BaseSchema<Integer> {
     }
 
     public NumberSchema positive() {
-        super.addCondition("positive", value -> value >= 0);
+        super.addCondition("positive", value -> value > 0);
         return NumberSchema.this;
     }
 
