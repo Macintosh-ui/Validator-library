@@ -10,7 +10,6 @@ public final class MapSchema extends BaseSchema<Map> {
 
     public MapSchema required() {
         setRequiredStatus(true);
-        addCondition("required", value -> value != null || !super.requiredStatus);
         return this;
     }
 
