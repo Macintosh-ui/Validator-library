@@ -8,7 +8,6 @@ public final class NumberSchema extends BaseSchema<Integer> {
 
     public NumberSchema required() {
         setRequiredStatus(true);
-        addCondition("required", value -> !super.requiredStatus || value != null);
         return this;
     }
 
