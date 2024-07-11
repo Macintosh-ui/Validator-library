@@ -8,7 +8,6 @@ public final class StringSchema extends BaseSchema<String> {
 
     public StringSchema required() {
         setRequiredStatus(true);
-        addCondition("required", value -> !super.requiredStatus || !(value == null || value == ("")));
         return this;
     }
 
